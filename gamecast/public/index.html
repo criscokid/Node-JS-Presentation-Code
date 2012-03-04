@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<script src="/jquery.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="/field.js"></script>
+		<script>
+			var field, socket;
+			$(document).ready(function(){
+				field = new Field('canvas');
+				socket = io.connect('http://localhost:3000');
+				
+				socket.on('play', function(data){
+					field.markPlay(data);
+				});
+				
+				socket.on('reset', function(data){
+					field.reset();
+				});
+				
+				socket.on('firstDown', function(data){
+					field.firstDownLine(data);
+				});
+				
+				socket.on('setStart', function(data){
+					field.setStartingPoint(data);
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<canvas style="border: 2px black solid;" id="canvas" width="720" height="300"></canvas>
+	</body>
+</html>
